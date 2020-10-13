@@ -36,14 +36,19 @@ The Scrapy based parser for crawling feefo.com
 
 
 ### Edit configuration file (.env)
-Set the actual credentials for MySQL:  DBHOST, DBPORT, DBBASE, DBUSER, DBPASSWORD 
-and path (absolute or relative) for storing log-files: LOGDIR and path to file with trademarks slugs list for scraping: TRADEMARKS and TIMEFRAME – time-frame for crawling data from site (WEEK,  MONTH,  SIX_MONTHS, YEAR, ALL)
+Set 
+- the actual credentials for MySQL:  DBHOST, DBPORT, DBBASE, DBUSER, DBPASSWORD 
+- path (absolute or relative) for storing log-files: LOGDIR
+- path for output csv files: CSVDIR
+- path to file with trademarks slugs list for scraping: TRADEMARKS
+- TIMEFRAME – time-frame for crawling data from site (WEEK,  MONTH,  SIX_MONTHS, YEAR, ALL)
  
 
 ```
 TRADEMARKS = ./feefo_scrapy/src/urls/feefo_urls
 TIMEFRAME  = ALL
 LOGDIR     = './Log'
+CSVDIR     = './Csv'
 DBHOST     = localhost
 DBPORT     = 3306
 DBBASE     = tesco

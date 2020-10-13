@@ -1,3 +1,5 @@
+import os, csv
+from datetime import datetime
 from src.items.item_feefo import FeefoReviewItem
 from src.database.models.feefo_review import FeefoReview
 from sqlalchemy.dialects.mysql import insert
@@ -16,6 +18,13 @@ class FeefoScraperPipeline:
         #spider.connection.session.add(row)
 
     def close_spider(self, spider):
+        dt = datetime.now().strftime('%Y%m%d%H%M%S')
+        csv_file_name = os.path.abspath(self.spider.csv_dir, f'{dt}.csv')
+        with open(csv_file_name, 'w', encoding='utf8', newline='')  as f:
+            dict_writer = csv.DictWriter(f, self.records[0].keys())
+            dict_writer.writeheader()
+            dict_writer.writerows(self.records)
+            self.spider.logger.info(f'Created CSV-file {csv_file_name} with {len(self.records)} records')
         for record in self.records:
             insert_stmt = insert(FeefoReview).values(record)
             on_duplicate_stmt = insert_stmt.on_duplicate_key_update(record)

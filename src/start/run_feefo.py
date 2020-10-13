@@ -26,6 +26,8 @@ if __name__ == '__main__':
     log_dir = os.path.abspath(os.getenv("LOGDIR", os.path.join(SCRIPT_DIR, 'Log')))
     log_file_name = 'feefo_' + str(datetime.utcnow())[:19].replace('-', '').replace(':', '').replace(' ', '_') + '.log'
     mkdir_p(log_dir)
+    csv_dir = os.path.abspath(os.getenv("CSVDIR", os.path.join(SCRIPT_DIR, 'Csv')))
+    mkdir_p(csv_dir)
     logging.basicConfig(
         filename=os.path.join(log_dir, log_file_name),
         format='%(levelname)s: %(message)s',
@@ -41,7 +43,7 @@ if __name__ == '__main__':
         else:
             start_urls = [ FeefoSpider.base_url.format(trademark=trademark, timeframe=timeframe)  for trademark in  trademarks]
             process = CrawlerProcess(get_project_settings())
-            process.crawl(FeefoSpider, start_urls=start_urls, connection=Connection() )
+            process.crawl(FeefoSpider, start_urls=start_urls, csv_dir=csv_dir, connection=Connection() )
             process.start()
             process.stop()
 
