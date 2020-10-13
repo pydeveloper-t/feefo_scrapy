@@ -21,7 +21,7 @@ class FeefoScraperPipeline:
         dt = datetime.now().strftime('%Y%m%d%H%M%S')
         csv_file_name = os.path.abspath(self.spider.csv_dir, f'{dt}.csv')
         with open(csv_file_name, 'w', encoding='utf8', newline='')  as f:
-            dict_writer = csv.DictWriter(f, self.records[0].keys())
+            dict_writer = csv.DictWriter(f, self.records[0].keys(), delimiter=',', quotechar='"', quoting=csv.QUOTE_ALL)
             dict_writer.writeheader()
             dict_writer.writerows(self.records)
             self.spider.logger.info(f'Created CSV-file {csv_file_name} with {len(self.records)} records')
