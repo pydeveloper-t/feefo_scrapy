@@ -3,6 +3,7 @@
 .git
 .idea
 *.log
+*.csv
 *.pyc
 __pycache__ 
 venv

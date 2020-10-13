@@ -12,8 +12,8 @@ import os, sys
 sys.path.insert(0, os.path.abspath(__file__ + "/../../../"))
 
 
-from src.database import Base
-from src.database.models import feefo_review
+from src.database import metadata
+from src.database.models.feefo_review import reviews
 
 
 # this is the Alembic Config object, which provides
@@ -34,7 +34,7 @@ fileConfig(config.config_file_name)
 # from myapp import mymodel
 # target_metadata = mymodel.Base.metadata
 #target_metadata = None
-target_metadata = Base.metadata
+target_metadata = metadata
 # other values from the config, defined by the needs of env.py,
 # can be acquired:
 # my_important_option = config.get_main_option("my_important_option")

@@ -1,6 +1,5 @@
 import os
-from src.database import Base
-from src.database.models.feefo_review import FeefoReview
+from src.database import metadata
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
@@ -21,7 +20,7 @@ class Connection:
         return  f'mysql+pymysql://{dbuser}:{dbpassword}@{dbhost}:{dbport}/{dbbase}'
 
     def create_tables(self, engine):
-        Base.metadata.create_all(self.engine)
+        metadata.create_all(engine)
 
     def db_connect(self):
         return create_engine(Connection._get_connection_string())

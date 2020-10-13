@@ -34,7 +34,6 @@ class FeefoSpider(Spider):
 
     def __init__(self, **kwargs):
         self.start_urls = kwargs.get('start_urls', [])
-        self.csv_dir = kwargs.get('csv_dir', '')
         self.connection = kwargs.get('connection', None)
 
     @staticmethod

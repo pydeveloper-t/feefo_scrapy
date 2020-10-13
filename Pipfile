@@ -11,6 +11,7 @@ SQLAlchemy = "*"
 alembic = "*"
 python-dotenv = "*"
 PyMySQL = "*"
+pandas = "*"
 
 [requires]
 python_version = "3.6"

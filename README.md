@@ -68,6 +68,12 @@ tm-lewin
 pipenv run  python ./start/run_feefo.py
 ```
 
+### Run export from MySQL to csv
+```
+pipenv run  python ./export/feefo_export.py
+```
+
+
   
 ### Additional Information
 > Alembic a database migration toop used in this project for  perform migrations to handle changes to the database. (See https://alembic.sqlalchemy.org/en/latest/index.html)
