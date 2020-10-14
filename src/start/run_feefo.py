@@ -17,6 +17,8 @@ if __name__ == '__main__':
     trademarks_list_file = os.getenv("TRADEMARKS")
     timeframe = os.getenv("TIMEFRAME")
     configure_logging(install_root_handler=False)
+    session_dir = os.path.abspath(os.getenv("SESSIONDIR"))
+    mkdir_p(session_dir)
     log_dir = os.path.abspath(os.getenv("LOGDIR", os.path.join(SCRIPT_DIR, 'Log')))
     log_file_name = 'feefo_' + str(datetime.utcnow())[:19].replace('-', '').replace(':', '').replace(' ', '_') + '.log'
     mkdir_p(log_dir)
@@ -27,16 +29,15 @@ if __name__ == '__main__':
     )
     if trademarks_list_file and timeframe:
         try:
-            print(os.path.abspath(trademarks_list_file))
             with open(os.path.abspath(trademarks_list_file), 'r') as f:
                 trademarks = f.readlines()
         except Exception as exc:
             print(f'File {trademarks_list_file} open error: {exc}')
             raise SystemExit
         else:
-            start_urls = [ FeefoSpider.base_url.format(trademark=trademark, timeframe=timeframe)  for trademark in  trademarks]
+            start_urls = [ FeefoSpider.base_url.format(trademark=trademark.strip(), timeframe=timeframe)  for trademark in  trademarks]
             process = CrawlerProcess(get_project_settings())
-            process.crawl(FeefoSpider, start_urls=start_urls, connection=Connection() )
+            process.crawl(FeefoSpider, start_urls=start_urls, session_dir=session_dir, connection=Connection() )
             process.start()
             process.stop()
 
