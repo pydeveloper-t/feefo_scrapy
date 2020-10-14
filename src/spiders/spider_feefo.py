@@ -112,6 +112,8 @@ class FeefoSpider(Spider):
         lastDate = None
         lastId = None
         session_restored = False
+        # if pageNumber == '2':
+        #     raise Exception('Boom!')
         if session_key in self.sessions:
             # Restore session
             lastDate = self.sessions[session_key]['lastDate']
@@ -175,7 +177,7 @@ class FeefoSpider(Spider):
                 self._delete_session(td_mark, time_frame)
 
     def spider_error(self, failure, response, spider):
-        spider.logger.info(f'Spider {spider.name} exception {failure.value}')
+        spider.logger.error(f'Spider {spider.name} exception {failure.value}')
         try:
             td_mark = self.get_trademark(response.url)
             time_frame = self.get_timeframe(response.url)
@@ -184,8 +186,9 @@ class FeefoSpider(Spider):
             reviews_counter = response.meta.get('reviews_counter', 0)
             pageNumber = response.meta.get('pageNumber', None)
             self._save_session(td_mark, time_frame, lastDate, lastId, pageNumber, reviews_counter)
-        except Exception as exc:
-            pass
+            self.logger.info(f'Saved session {td_mark} {time_frame} with parameters: lastDate={lastDate}, '
+                             f'lastId={lastId}, pageNumber={pageNumber}, reviews_counter={reviews_counter}')
+        except Exception as exc:pass
 
     def spider_opened(self, spider):
         for url in self.start_urls:
@@ -196,3 +199,5 @@ class FeefoSpider(Spider):
                 lastDate, lastId, pageNumber, reviews_counter = data
                 self.sessions[f'{td_mark}:{time_frame}'] = {'lastDate':lastDate, 'lastId':lastId, 'pageNumber':pageNumber,
                                                             'reviews_counter':reviews_counter}
+                self.logger.info(f'Restored session {td_mark} {time_frame} with parameters: lastDate={lastDate}, '
+                                 f'lastId={lastId}, pageNumber={pageNumber}, reviews_counter={reviews_counter}')
