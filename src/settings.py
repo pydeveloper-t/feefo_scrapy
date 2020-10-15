@@ -87,3 +87,8 @@ ITEM_PIPELINES = {
 #HTTPCACHE_DIR = 'httpcache'
 #HTTPCACHE_IGNORE_HTTP_CODES = []
 #HTTPCACHE_STORAGE = 'scrapy.extensions.httpcache.FilesystemCacheStorage'
+
+RETRY_ENABLED = True
+RETRY_TIMES = 2  # initial response + 2 retries = 3 requests
+RETRY_HTTP_CODES = [500, 502, 503, 504, 522, 524, 408, 429, 403]
+RETRY_PRIORITY_ADJUST = -1
